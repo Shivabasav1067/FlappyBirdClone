@@ -37,9 +37,14 @@ jobs:
       run: |
         yes | sdkmanager --licenses || true
 
-    - name: Build APK
-      run: |
-        buildozer android debug
+- name: Install Android SDK components (FIX AIDL)
+  run: |
+    sdkmanager "platform-tools" "platforms;android-31" "build-tools;31.0.0"
+
+- name: Build APK
+  run: |
+    buildozer android debug
+
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
