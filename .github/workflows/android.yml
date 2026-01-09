@@ -36,7 +36,28 @@ jobs:
         mkdir -p cmdline-tools/latest
         mv cmdline-tools/* cmdline-tools/latest/ || true
 
-    - name: Install Android build tools (AIDL FIX)
+   - name: Install Android build tools (AIDL FIX)
+  run: |
+    sudo apt update
+    sudo apt install -y coreutils
+
+    export ANDROID_HOME=$HOME/android-sdk
+    export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
+
+    $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses <<EOF
+y
+y
+y
+y
+y
+y
+EOF
+
+    $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+      "platform-tools" \
+      "platforms;android-31" \
+      "build-tools;31.0.0"
+
       env:
         ANDROID_HOME: $HOME/android-sdk
         PATH: $HOME/android-sdk/cmdline-tools/latest/bin:$PATH
